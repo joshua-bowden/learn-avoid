@@ -5,8 +5,7 @@ Josh Bowden / jjosh
 Summary:
 From prior experience, state-of-the-art pi0.5 VLA sometimes knocks over non-target objects in the scene, which can lead to safety issues and poor performance. We are going to add obstacles in the way of pick-and-place tasks in the LIBERO robot simulation benchmark.  We will test robot policies trained with demonstrations from the original tasks without obstacles. We will augment the existing demonstrations using motion planning algorithms to route around the obstacles, then use those demonstrations to train a policy. Finally, we will test the original policy against the augmented policy, aiming for fewer collisions and higher task success.
 
-<video src="./rollout_open_the_top_drawer_and_put_the_bowl_inside_success.mp4" controls="controls" style="max-width: 100%;">
-</video>
+https://github.com/user-attachments/assets/1d1e2d78-c83f-41b8-b2d9-49cfb3b8ac31
 
 Inputs and outputs:
 Inputs are human demonstrations controlling a robot arm completing various pick-and-place tasks in simulation. Outputs are augmented demonstrations that are automatically routed around an obstacle using motion planning algorithms. Both inputs and outputs are used to train robot policies. 
