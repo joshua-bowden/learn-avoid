@@ -1,0 +1,40 @@
+[ Parent Folder: libero_goal ] (modified to use exact same language as planner.py; rest are not modified yet)
+-------------------------------
+turn on the stove
+open the middle drawer of the cabinet
+open the top drawer and put the bowl inside
+put the wine bottle on the rack
+put the wine bottle on top of the cabinet
+put the bowl on top of the cabinet
+push the plate to the front of the stove
+put the bowl on the stove
+put the bowl on the plate
+put the cream cheese in the bowl
+
+
+[ Parent Folder: libero_object ]
+---------------------------------
+Pick the bbq sauce and place it in the basket
+Pick the milk and place it in the basket
+Pick the cream cheese and place it in the basket
+Pick the orange juice and place it in the basket
+Pick the tomato sauce and place it in the basket
+Pick the ketchup and place it in the basket
+Pick the salad dressing and place it in the basket
+Pick the alphabet soup and place it in the basket
+Pick the butter and place it in the basket
+Pick the chocolate pudding and place it in the basket
+
+
+[ Parent Folder: libero_spatial ]
+----------------------------------
+Pick the akita black bowl next to the cookies box and place it on the plate
+Pick the akita black bowl next to the plate and place it on the plate
+Pick the akita black bowl on the wooden cabinet and place it on the plate
+Pick the akita black bowl next to the ramekin and place it on the plate
+Pick the akita black bowl from table center and place it on the plate
+Pick the akita black bowl in the top layer of the wooden cabinet and place it on the plate
+Pick the akita black bowl on the ramekin and place it on the plate
+Pick the akita black bowl on the stove and place it on the plate
+Pick the akita black bowl between the plate and the ramekin and place it on the plate
+Pick the akita black bowl on the cookies box and place it on the plate
