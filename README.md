@@ -5,18 +5,18 @@ Josh Bowden / jjosh
 Summary:
 From prior experience, state-of-the-art pi0.5 VLA sometimes knocks over non-target objects in the scene, which can lead to safety issues and poor performance. We are going to add obstacles in the way of pick-and-place tasks in the LIBERO robot simulation benchmark.  We will test robot policies trained with demonstrations from the original tasks without obstacles. We will augment the existing demonstrations using motion planning algorithms to route around the obstacles, then use those demonstrations to train a policy. Finally, we will test the original policy against the augmented policy, aiming for fewer collisions and higher task success.
 
-https://github.com/user-attachments/assets/1d1e2d78-c83f-41b8-b2d9-49cfb3b8ac31
+https://github.com/user-attachments/assets/2973123b-7d19-4bd5-8a80-f0fdc818b92f
 
 Inputs and outputs:
 Inputs are human demonstrations controlling a robot arm completing various pick-and-place tasks in simulation. Outputs are augmented demonstrations that are automatically routed around an obstacle using motion planning algorithms. Both inputs and outputs are used to train robot policies. 
 
 Task list: 
-- (DONE) Clone openpi codebase for evaluating pi0.5 VLA in LIBERO simulation
+- (DONE) Clone openpi codebase for evaluating pi0.5 VLA in LIBERO simulation **(my code will be in ./examples/libero)**
 - (DONE) Verify problem exists by observing pi0.5 VLA collide and knock over object, leading to task failures 
     (video above)
 - (DONE) Run pi0.5 VLA in LIBERO simulation at scale, making sure we can use and modify the automated success detector,
 detect object collisions, and add arbitrary obstacles to the environment
-    (video, ./examples/libero/episode_stats, and ./examples/libero/object_rollout_collection_script.py)
+    (video, stats from 500 episodes, and script at episode_stats.txt and object_rollout_collection_script.py)
 - Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the pick phase
 - Augment LIBERO demonstrations with motion planning around an obstacle in the way of the pick phase
 - Use augmented demonstrations to train pi0.5 VLA and/or a smaller model
