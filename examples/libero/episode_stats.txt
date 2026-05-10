@@ -1,0 +1,10 @@
+Overall: 167 / 500 (33.4%)
+
+Per arm group (arm_group_idx, name):
+  arm_group_idx=0 DEFAULT: 33 / 72 (45.8%)
+  arm_group_idx=1 chocolate_pudding_1: 29 / 72 (40.3%)
+  arm_group_idx=2 orange_juice_1: 18 / 72 (25.0%)
+  arm_group_idx=3 bbq_sauce_1: 24 / 71 (33.8%)
+  arm_group_idx=4 ketchup_1: 20 / 71 (28.2%)
+  arm_group_idx=5 salad_dressing_1: 8 / 71 (11.3%)
+  arm_group_idx=6 alphabet_soup_1: 35 / 71 (49.3%)

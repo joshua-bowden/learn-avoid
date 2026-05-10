@@ -12,9 +12,11 @@ Inputs are human demonstrations controlling a robot arm completing various pick-
 
 Task list: 
 - (DONE) Clone openpi codebase for evaluating pi0.5 VLA in LIBERO simulation
-- (DONE) Verify problem exists by observing pi0.5 VLA collide and knock over object, leading to task failures
-- (DONE) Run pi0.5 VLA in LIBERO simulation, making sure we can use and modify the automated success detector,
+- (DONE) Verify problem exists by observing pi0.5 VLA collide and knock over object, leading to task failures 
+    (video above)
+- (DONE) Run pi0.5 VLA in LIBERO simulation at scale, making sure we can use and modify the automated success detector,
 detect object collisions, and add arbitrary obstacles to the environment
+    (video, ./examples/libero/episode_stats, and ./examples/libero/object_rollout_collection_script.py)
 - Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the pick phase
 - Augment LIBERO demonstrations with motion planning around an obstacle in the way of the pick phase
 - Use augmented demonstrations to train pi0.5 VLA and/or a smaller model
