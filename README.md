@@ -11,14 +11,26 @@ Inputs and outputs:
 Inputs are human demonstrations controlling a robot arm completing various pick-and-place tasks in simulation. Outputs are augmented demonstrations that are automatically routed around an obstacle using motion planning algorithms. Both inputs and outputs are used to train robot policies. 
 
 Task list: 
+
+Milestone 1
+
 - (DONE) Clone openpi codebase for evaluating pi0.5 VLA in LIBERO simulation **(my code will be in ./examples/libero)**
 - (DONE) Verify problem exists by observing pi0.5 VLA collide and knock over object, leading to task failures 
     (video above)
 - (DONE) Run pi0.5 VLA in LIBERO simulation at scale, making sure we can use and modify the automated success detector,
 detect object collisions, and add arbitrary obstacles to the environment
     (video, stats from 500 episodes, and script at episode_stats.txt and object_rollout_collection_script.py)
-- Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the pick phase
-- Augment LIBERO demonstrations with motion planning around an obstacle in the way of the pick phase
+
+Milestone 2
+
+- (DONE) Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the place phase. Result = 0% success, 100% collision
+- (DONE) Use simple heuristic of moving robot arm 1 meter to the right to avoid obstacle, using VLA for the rest and evaluate. This shows if motion planning would work. Result = 60% success, 0% collision. See baseline_IK.py. 
+
+Motion planning can have higher success because we can depend less on the VLA succeeding from OOD states, although some combination is probably needed for more complex tasks.
+
+Final submission
+
+- Augment LIBERO demonstrations with more complex motion planning around an obstacle in the way of the pick phase
 - Use augmented demonstrations to train pi0.5 VLA and/or a smaller model
 - Evaluate augmented model on the task with an obstacle in the way of the pick phase
 - Evaluate generalization to obstacles in different places
