@@ -29,7 +29,7 @@ detect object collisions, and add arbitrary obstacles to the environment
 
 Milestone 2
 
-- (DONE) Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the place phase. Result = 0% success, 100% collision
+- (DONE) Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the place phase. Result = 0% success, 100% collision. See avoid.py
 - (DONE) Use simple heuristic of moving robot arm 1 meter to the right to avoid obstacle, using VLA for the rest and evaluate. This shows if motion planning would work. Result = 60% success, 0% collision. See baseline_IK.py. 
 
 Motion planning can have higher success because we can depend less on the VLA succeeding from OOD states, although some combination is probably needed for more complex tasks.
