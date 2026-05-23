@@ -7,6 +7,12 @@ From prior experience, state-of-the-art pi0.5 VLA sometimes knocks over non-targ
 
 https://github.com/user-attachments/assets/2973123b-7d19-4bd5-8a80-f0fdc818b92f
 
+
+
+https://github.com/user-attachments/assets/10d2b0e7-071c-4a2c-84af-2d4be15f4cfc
+
+
+
 Inputs and outputs:
 Inputs are human demonstrations controlling a robot arm completing various pick-and-place tasks in simulation. Outputs are augmented demonstrations that are automatically routed around an obstacle using motion planning algorithms. Both inputs and outputs are used to train robot policies. 
 
