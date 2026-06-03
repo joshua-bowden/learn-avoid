@@ -1,6 +1,7 @@
 # Auto-Augmenting Robot Manipulation Demonstrations to Learn to Avoid Collisions
 
 **Joshua Bowden, jjosh**
+
 **June 3, 2026**
 
 ---
@@ -21,7 +22,7 @@ Meanwhile, manipulators have a traditional form of obstacle avoidance known as m
 
 <img width="206" height="156" alt="trad" src="https://github.com/user-attachments/assets/263d24fc-b386-46b7-821b-751052b0a96d" />
 
-To formulate the problem of manipulation and avoidance, we define the goal as training a robot arm to avoid obstacles while completing a separate pick-and-place manipulation task. Our metrics are pick-and-place success rate and obstacle collision rate. The inputs are 1) expert pick-and-place demonstrations in simulation, which are a plentiful source of robotics data, and 2) a motion planner, which calculate a path from pose A to B while avoiding obstacles. THe outputs are 1) augmented demonstrations that complete the task and avoid an inserted obstacle, and 2) a trained robot policy that does well on the metrics.
+To formulate the problem of manipulation and avoidance, we define the goal as training a robot arm to avoid obstacles while completing a separate pick-and-place manipulation task. Our metrics are pick-and-place success rate and obstacle collision rate. The inputs are 1) expert pick-and-place demonstrations in simulation, which are a plentiful source of robotics data, and 2) a motion planner, which calculate a path from pose A to B while avoiding obstacles. The outputs are 1) augmented demonstrations that complete the task and avoid an inserted obstacle, and 2) a trained robot policy that does well on the metrics.
 
 See below for two examples of pi0.5 VLA [4] colliding. In one, the arm collides but succeeds at the task; in the other, the arm collides and fails the task.
 
@@ -54,6 +55,11 @@ We are trying to augment demonstrations scalably to avoid obstacles and complete
 **Augmenting Demonstrations Results**
 
 Starting from 50 demonstrations with randomized obstacles inserted, half of them returned a valid motion plan. An invalid motion plan means that the inserted obstacle may have made it impossible to reach the key poses. Getting this signal allows for (even in case of failure to plan) randomly varying the obstacle, checking for a motion plan, and iterating without manually tuning the environment and obstacle too much. This could also allow future work to vary between simple and complex obstacle arrangements using heuristics like number of samples for the motion planner to reach a solution. 
+
+See below for the breakdown of demonstrations (grey don't get a motion plan; green succeed and don't collide; red fail or collide)
+
+<img width="600" height="371" alt="Demonstration breakdown" src="https://github.com/user-attachments/assets/2b7b6d5f-4df5-4a20-b4ee-6add1d31e27c" />
+
 
 Of the amount with a valid motion plan, 60% were both successful and avoided hitting any obstacles. 36% were unsuccessful due to unwanted change in the arm position during key poses that stem from our lossy conversion of motion planner outputs to arm control inputs. Only 4% had a collision, with similar causes. This is promising because we did not tune the motion planner at all, and it shows that we could easily (and algorithmically) change parameters like clearance distance, interpolation methods, and constraints that are typical when using motion planners, and get more successful no-collision trajectories by using a bit more compute. As a note, the motion planner is very fast and runs in a few seconds on a CPU for a few hundred steps of robot motion, so the scaling cost is very low. 
 
