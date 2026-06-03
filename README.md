@@ -23,7 +23,7 @@ Meanwhile, manipulators have a traditional form of obstacle avoidance known as m
 
 To formulate the problem of manipulation and avoidance, we define the goal as training a robot arm to avoid obstacles while completing a separate pick-and-place manipulation task. Our metrics are pick-and-place success rate and obstacle collision rate. The inputs are 1) expert pick-and-place demonstrations in simulation, which are a plentiful source of robotics data, and 2) a motion planner, which calculate a path from pose A to B while avoiding obstacles. THe outputs are 1) augmented demonstrations that complete the task and avoid an inserted obstacle, and 2) a trained robot policy that does well on the metrics.
 
-See below for two examples of pi0.5 VLA [4] failing.
+See below for two examples of pi0.5 VLA [4] colliding. In one, the arm collides but succeeds at the task; in the other, the arm collides and fails the task.
 
 <img width="400" height="400" alt="agent_task_1_episode_0_fail" src="https://github.com/user-attachments/assets/24bae077-48a0-4244-abfe-5280eeed6582" />
 <img width="400" height="400" alt="pi05_libero_collision" src="https://github.com/user-attachments/assets/f97ecc1f-8cf8-43e8-8cf8-711cf9b33749" />
@@ -34,6 +34,7 @@ The hard part is setting up scalable augmentations and getting a model to genera
 ## Approach 
 
 **Scalably Augmenting Demonstrations**
+
 We want to augment existing demonstrations in order to increase the amount of data for this task of obstacle avoidance while avoiding the very expensive costs of collecting data. Demonstrations are very important for manipulation because manipulaiton behaviors are very hard to guide out of an exploring RL agent; as opposed to more navigation based tasks like traversing a maze where a simple explore/exploit agent can often achieve success.
 
 To augment demonstrations, we recreate the simulation environment from the original demonstration and add an obstacle. We break the original robot trajectory into key poses: start, pick, and place. Then, we change the intermediate path with a motion planner. The idea is that this simple approach captures the manipulation control, which is the important part of a human demonstration, and rewrites the motion between those segments, which is less important.
@@ -41,6 +42,7 @@ To augment demonstrations, we recreate the simulation environment from the origi
 I tried to implement my own simple motion planner in simulation, then tested several old and nonfunctional planing libraries for the Mujoco simulator before finding one that worked. While we built off this planning library designed broadly for the simulator, key implementation challenges were getting our robot model and obstacles to format correctly, approximating the joint space poses from the planner into tool-space delta actions that the simulator wanted, and interpolating the sparse poses from the planner to have a dense path. 
 
 **Training a model to learn avoidance**
+
 We want to see if the traditional motion planner, which depends on privileged information from the simulator like the ground truth location of obstacles, can be learned into a robot policy while it is also learning to complete another task. We use the successful, non-colliding demonstrations from the augmentation, while ignoring augmentations that didn't go too well. Architecture-wise, we used basic behavior cloning from the LIBERO benchmark [7] we are testing on and didn't do anything new. 
 
 
@@ -50,6 +52,7 @@ We want to see if the traditional motion planner, which depends on privileged in
 We are trying to augment demonstrations scalably to avoid obstacles and complete a pick-and-place task, then train a model to do the same. To do this, we need to test if our augmentation process manages to succeed and avoid collision, and then test our trained model in those aspects as well.
 
 **Augmenting Demonstrations Results**
+
 Starting from 50 demonstrations with randomized obstacles inserted, half of them returned a valid motion plan. An invalid motion plan means that the inserted obstacle may have made it impossible to reach the key poses. Getting this signal allows for (even in case of failure to plan) randomly varying the obstacle, checking for a motion plan, and iterating without manually tuning the environment and obstacle too much. This could also allow future work to vary between simple and complex obstacle arrangements using heuristics like number of samples for the motion planner to reach a solution. 
 
 Of the amount with a valid motion plan, 60% were both successful and avoided hitting any obstacles. 36% were unsuccessful due to unwanted change in the arm position during key poses that stem from our lossy conversion of motion planner outputs to arm control inputs. Only 4% had a collision, with similar causes. This is promising because we did not tune the motion planner at all, and it shows that we could easily (and algorithmically) change parameters like clearance distance, interpolation methods, and constraints that are typical when using motion planners, and get more successful no-collision trajectories by using a bit more compute. As a note, the motion planner is very fast and runs in a few seconds on a CPU for a few hundred steps of robot motion, so the scaling cost is very low. 
@@ -61,6 +64,7 @@ See below for an original demonstration and the same demonstration augmented.
 <img width="400" height="400" alt="ep_00_agent" src="https://github.com/user-attachments/assets/d8cae979-ba2a-4f41-b9f4-cefc33dcff9f" />
 
 **Model Eval**
+
 Our model performance was pretty poor. Evaluated on obstacles with a similar placement as the training data(between start and pick), 22% of trajectories succeeded and 0% collided. Evaluated on different obstacles (between pick and place), 0% succeeded and 98% collided. We will discuss more below.
 
 See below for a success on a similar obstacle and complete failure on a different obstacle.
@@ -73,7 +77,7 @@ See below for a success on a similar obstacle and complete failure on a differen
 
 It seems to be extremely hard to learn avoidance alongside manipulation. The behavior cloning that we used has obvious flaws like averaging multimodal actions, but it is widely used for manipulation again because manipulation is hard to explore. Another learning method, maximum entropy RL [2], has some ability to be robust to obstacles because it tries to complete a task in as random of a way as possible, but avoidance is only by chance and not from actual understanding.
 
-See below for max entropy trained with no obstacle and evaluated without an obstacle [2].
+See below for max entropy trained with no obstacle and evaluated without an obstacle [2]. It seems like my method of augmenting demos could create high entropy rollouts that also have manipulation, but ultimately this doesn't guarnatee avoiding an obstacle. 
 
 <img width="600" height="450" alt="maxent" src="https://github.com/user-attachments/assets/60301e82-e076-4584-8113-23c25ae70519" />
 
