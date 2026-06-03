@@ -10,15 +10,21 @@
 
 Current state-of-the-art robot manipulation demos are very good at completing tasks given that they have an ideal setup for the task. Critical inspection of the robot environment reveals that there are no humans or obsatcles in the way; at most there are distracting objects on the table. As robots move from robot-oriented spaces, like a factory specially designed for them, to human spaces, they need to be aware of and able to avoid collisions with humans and the environment. This work is partly inspired by my day job in automation at a therapeutics company where we are trying to move robots from a dedicated workcell (instruments are lined up for an enclosed arm that memorizes the exact position to operate each one) to the wet lab where there is a dynamic environment, scientists, and $100k instruments.
 
+See below for pi [4] tasks that are well set up for a robot to complete.
+
 <img width="500" height="300" alt="pi" src="https://github.com/user-attachments/assets/ef8ecbe9-d35e-4114-b23c-3dfa763a8cfa" />
 
 
 When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy [1]. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting for creating the environment and learned models for moving in the environment, like a self-driving car or simpler controllers.
 
+See below for example of navigation in robotics [1].
+
 <img width="400" height="180" alt="bot" src="https://github.com/user-attachments/assets/7ca53b7a-6d2a-4b38-a8de-cce428b64f05" />
 
 
 Meanwhile, manipulators have a traditional form of obstacle avoidance known as motion planning, where the joints of the arm are checked against a 3D map of the world while trying to go from a given pose to a target pose. However, the field does not seem to have thought about representing this idea in learning-based models. Robotics foundation models are along a spectrum with fully latent understanding on one side, and on the other side are attempts to pull out explicit understanding of things like object recognition, object pose, or grasp pose [3]. But mapping of the environment and the position of the whole arm (joints and end effector) is missing from this spectrum.
+
+See below for a traditional motion planner interface.
 
 <img width="206" height="156" alt="trad" src="https://github.com/user-attachments/assets/263d24fc-b386-46b7-821b-751052b0a96d" />
 
