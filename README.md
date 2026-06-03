@@ -12,7 +12,7 @@ Current state-of-the-art robot manipulation demos are very good at completing ta
 <img width="500" height="300" alt="pi" src="https://github.com/user-attachments/assets/ef8ecbe9-d35e-4114-b23c-3dfa763a8cfa" />
 
 
-When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy [1]. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting. 
+When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy [1]. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting for creating the environment and learned models for moving in the environment, like a self-driving car or simpler controllers.
 
 <img width="400" height="180" alt="bot" src="https://github.com/user-attachments/assets/7ca53b7a-6d2a-4b38-a8de-cce428b64f05" />
 
