@@ -1,68 +1,59 @@
-Augmenting Demonstrations with Motion Planning to Help Vision-Language-Action Models Avoid Collision
+# Auto-Augmenting Robot Manipulation Demonstrations to Learn to Avoid Collisions
 
-Josh Bowden / jjosh
+**Joshua Bowden, jjosh**
+**June 3, 2026**
 
-Summary:
-From prior experience, state-of-the-art pi0.5 VLA sometimes knocks over non-target objects in the scene, which can lead to safety issues and poor performance. We are going to add obstacles in the way of pick-and-place tasks in the LIBERO robot simulation benchmark.  We will test robot policies trained with demonstrations from the original tasks without obstacles. We will augment the existing demonstrations using motion planning algorithms to route around the obstacles, then use those demonstrations to train a policy. Finally, we will test the original policy against the augmented policy, aiming for fewer collisions and higher task success.
+---
 
-https://github.com/user-attachments/assets/2973123b-7d19-4bd5-8a80-f0fdc818b92f
+## Background and Setup
+
+Current state-of-the-art robot manipulation demos are very good at completing tasks given that they have an ideal setup for the task. Critical inspection of the robot environment reveals that there are no humans or obsatcles in the way; at most there are distracting objects on the table. As robots move from robot-oriented spaces, like a factory specially designed for them, to human spaces, they need to be aware of and able to avoid collisions with humans and the environment. This work is partly inspired by my day job in automation at a therapeutics company where we are trying to move robots from a dedicated workcell (instruments are lined up for an enclosed arm that memorizes the exact position to operate each one) to the wet lab where there is a dynamic environment, scientists, and $100k instruments.
+
+When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting. 
+
+Meanwhile, manipulators have a traditional form of obstacle avoidance known as motion planning, where the joints of the arm are checked against a 3D map of the world while trying to go from a given pose to a target pose. However, the field does not seem to have thought about representing this idea in learning-based models. Robotics foundation models are along a spectrum with fully latent understanding on one side, and on the other side are attempts to pull out explicit understanding of things like object recognition, object pose, or grasp pose. But mapping of the environment and the position of the whole arm (joints and end effector) is missing from this spectrum.
+
+To set up the problem, we 
 
 
+## Approach
 
-https://github.com/user-attachments/assets/10d2b0e7-071c-4a2c-84af-2d4be15f4cfc
+Describe relevant background information, prior work, or setup assumptions. Use one or more paragraphs as needed.
+
+## Evaluation and Results
+
+Explain what you did: tools, steps, parameters, and how data or results were collected.
+
+## Conclusion
+
+Summarize outcomes, observations, or metrics. Reference figures or recordings in the sections below.
+
+## References
 
 
+## Media (GIFs and Videos)
 
-Inputs and outputs:
-Inputs are human demonstrations controlling a robot arm completing various pick-and-place tasks in simulation. Outputs are augmented demonstrations that are automatically routed around an obstacle using motion planning algorithms. Both inputs and outputs are used to train robot policies. 
+### GIFs (images)
 
-Task list: 
+Place GIF files in the repo (e.g. `assets/demo.gif`), then embed with standard Markdown image syntax:
 
-Milestone 1
+```markdown
+![Short description of what the GIF shows](assets/demo.gif)
+```
 
-- (DONE) Clone openpi codebase for evaluating pi0.5 VLA in LIBERO simulation **(my code will be in ./examples/libero)**
-- (DONE) Verify problem exists by observing pi0.5 VLA collide and knock over object, leading to task failures 
-    (video above)
-- (DONE) Run pi0.5 VLA in LIBERO simulation at scale, making sure we can use and modify the automated success detector,
-detect object collisions, and add arbitrary obstacles to the environment
-    (video, stats from 500 episodes, and script at episode_stats.txt and object_rollout_collection_script.py)
+You can also use a full URL:
 
-Milestone 2
+```markdown
+![Demo animation](https://example.com/path/to/demo.gif)
+```
 
-- (DONE) Systematically evaluate pi0.5 VLA and/or a smaller model on the task with an obstacle in the way of the place phase. Result = 0% success, 100% collision. See avoid.py
-- (DONE) Use simple heuristic of moving robot arm 1 meter to the right to avoid obstacle, using VLA for the rest and evaluate. This shows if motion planning would work. Result = 60% success, 0% collision. See baseline_IK.py. 
+On GitHub, you can drag a GIF into the issue/PR comment box or README editor to upload it; GitHub will insert a hosted URL you can paste into the line above.
 
-Motion planning can have higher success because we can depend less on the VLA succeeding from OOD states, although some combination is probably needed for more complex tasks.
+### Videos
 
-Final submission
+**Option 1 — Link to a file in the repo** (simplest; works everywhere):
 
-- Augment LIBERO demonstrations with more complex motion planning around an obstacle in the way of the pick phase
-- Use augmented demonstrations to train pi0.5 VLA and/or a smaller model
-- Evaluate augmented model on the task with an obstacle in the way of the pick phase
-- Evaluate generalization to obstacles in different places
-- Evaluate generalization to an obstacle in the way of the place phase
-
-Stretch:
-- Do more tasks and varying obstacles
-- Augment demonstrations with obstacles in the place phase
-- Try other simulation benchmarks or real arm
-
-Expected deliverables and/or evaluation:
-Ideally, a good policy will pick and place successfully and avoid colliding with other objects.
-- A graph showing success of the base policy vs the augmented policy on the pick-and-place task
-- A graph showing collision number of the base policy vs the augmented policy on the pick-and-place task
-- Similar graphs showing success and collisions generalizing to when an obstacle is added in the place phase
-- Video walkthrough of episodes showing success and failure modes
-
-Risks: 
-- Finetuning large VLA is too time/compute extensive
-    - Derisk: I have experience finetuning pi0.5, and will use a smaller task-specific policy if prohibitive
-
-- Challenges setting up motion planning on demonstrations
-    - Derisk: I have experience using motion planners on other arms, and Panda in LIBERO is very well supported. Simulation allows for using ground truth obstacle coordinates. 
-
-References:
-https://fieldgen.github.io/  - augment grasp demonstrations with scripted movement towards the grasp position
-https://lujieyang.github.io/physicsgen/ - transfer hand contact to other embodiments
-https://www.alphaxiv.org/abs/2309.08821 - use motion planners for safer navigation
+```markdown
+[Watch the demo video](assets/demo.mp4)
+```
 

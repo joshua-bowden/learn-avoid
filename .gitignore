@@ -1,5 +1,7 @@
 # Data directories.
 assets/
+!examples/libero/obstacle/assets/
+!examples/libero/obstacle/assets/**
 checkpoints/
 data/
 wandb/

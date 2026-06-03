@@ -1,0 +1,24 @@
+<mujoco model="red_obstacle">
+  <asset>
+    <material name="red_mat" rgba="0.9 0.1 0.1 1"/>
+  </asset>
+  <worldbody>
+    <body>
+      <body name="object">
+        <!-- Slim pillar half-sizes (m): 5cm x 5cm footprint, 24cm tall.
+             Slimmer than the original 8cm box so it blocks the end-effector's
+             straight-line reach to the bowl without intruding on the arm's
+             proximal links at the pick/place keyframe configs.
+             Geom center = body origin; bottom on table via set_obstacle_pose(). -->
+        <geom name="red_obstacle_g0" type="box" size="0.025 0.025 0.12"
+              material="red_mat" mass="0.5" friction="1 0.005 0.0001"
+              group="0" contype="1" conaffinity="1"/>
+        <geom name="red_obstacle_v0" type="box" size="0.025 0.025 0.12"
+              material="red_mat" group="1" contype="0" conaffinity="0"/>
+      </body>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.12" name="bottom_site"/>
+      <site rgba="0 0 0 0" size="0.005" pos="0 0 0.14" name="top_site"/>
+      <site rgba="0 0 0 0" size="0.005" pos="0.04 0.04 0" name="horizontal_radius_site"/>
+    </body>
+  </worldbody>
+</mujoco>
