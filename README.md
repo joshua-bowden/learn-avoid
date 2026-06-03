@@ -24,7 +24,7 @@ See below for example of navigation in robotics [1].
 
 Meanwhile, manipulators have a traditional form of obstacle avoidance known as motion planning, where the joints of the arm are checked against a 3D map of the world while trying to go from a given pose to a target pose. However, the field does not seem to have thought about representing this idea in learning-based models. Robotics foundation models are along a spectrum with fully latent understanding on one side, and on the other side are attempts to pull out explicit understanding of things like object recognition, object pose, or grasp pose [3]. But mapping of the environment and the position of the whole arm (joints and end effector) is missing from this spectrum.
 
-See below for a traditional motion planner interface.
+See below for a traditional motion planner interface; it requires an explicit 3D map of the world.
 
 <img width="206" height="156" alt="trad" src="https://github.com/user-attachments/assets/263d24fc-b386-46b7-821b-751052b0a96d" />
 
@@ -74,6 +74,8 @@ See below for an original demonstration and the same demonstration augmented.
 <img width="400" height="400" alt="ep_00_agent_replay" src="https://github.com/user-attachments/assets/4fc2f860-05a7-4bbb-9566-0914fd859e0a" />
 
 <img width="400" height="400" alt="ep_00_agent" src="https://github.com/user-attachments/assets/d8cae979-ba2a-4f41-b9f4-cefc33dcff9f" />
+
+Together, the automatic signals of having a motion plan, succeeding on the task, and avoiding obstacles makes it manageable to scale this up, iterate through various obstacle or planner parameters, and create a large number of ideal successful non-colliding trajectories with minimal human supervision. Once adapted to a simulator backend, which are largely concentrated to a select few, augmenting data from various robot embodiments, task and environment layouts, and obstacles will be easy and scientists can focus on model training.
 
 **Model Eval**
 
