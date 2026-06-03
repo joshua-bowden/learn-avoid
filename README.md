@@ -12,18 +12,18 @@ Current state-of-the-art robot manipulation demos are very good at completing ta
 <img width="500" height="300" alt="pi" src="https://github.com/user-attachments/assets/ef8ecbe9-d35e-4114-b23c-3dfa763a8cfa" />
 
 
-When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting. 
+When we step back from manipulation and look at robotics as a whole, we notice that there is a whole class of robots primarily focused on navigation and obstacle avoidance. Localization and mapping enables turtlebots, robot dogs, drones, and self-driving cars to move in their environment while building an explicit map and understanding what space they can occupy [1]. These robots do this both with traditional methods, such as LIDAR mapping, and with learned methods, like 3d reconstruction and Gaussian splatting. 
 
 <img width="400" height="180" alt="bot" src="https://github.com/user-attachments/assets/7ca53b7a-6d2a-4b38-a8de-cce428b64f05" />
 
 
-Meanwhile, manipulators have a traditional form of obstacle avoidance known as motion planning, where the joints of the arm are checked against a 3D map of the world while trying to go from a given pose to a target pose. However, the field does not seem to have thought about representing this idea in learning-based models. Robotics foundation models are along a spectrum with fully latent understanding on one side, and on the other side are attempts to pull out explicit understanding of things like object recognition, object pose, or grasp pose. But mapping of the environment and the position of the whole arm (joints and end effector) is missing from this spectrum.
+Meanwhile, manipulators have a traditional form of obstacle avoidance known as motion planning, where the joints of the arm are checked against a 3D map of the world while trying to go from a given pose to a target pose. However, the field does not seem to have thought about representing this idea in learning-based models. Robotics foundation models are along a spectrum with fully latent understanding on one side, and on the other side are attempts to pull out explicit understanding of things like object recognition, object pose, or grasp pose [3]. But mapping of the environment and the position of the whole arm (joints and end effector) is missing from this spectrum.
 
 <img width="206" height="156" alt="trad" src="https://github.com/user-attachments/assets/263d24fc-b386-46b7-821b-751052b0a96d" />
 
 To formulate the problem of manipulation and avoidance, we define the goal as training a robot arm to avoid obstacles while completing a separate pick-and-place manipulation task. Our metrics are pick-and-place success rate and obstacle collision rate. The inputs are 1) expert pick-and-place demonstrations in simulation, which are a plentiful source of robotics data, and 2) a motion planner, which calculate a path from pose A to B while avoiding obstacles. THe outputs are 1) augmented demonstrations that complete the task and avoid an inserted obstacle, and 2) a trained robot policy that does well on the metrics.
 
-See below for two examples of pi0.5 VLA failing.
+See below for two examples of pi0.5 VLA [4] failing.
 
 <img width="400" height="400" alt="agent_task_1_episode_0_fail" src="https://github.com/user-attachments/assets/24bae077-48a0-4244-abfe-5280eeed6582" />
 <img width="400" height="400" alt="pi05_libero_collision" src="https://github.com/user-attachments/assets/f97ecc1f-8cf8-43e8-8cf8-711cf9b33749" />
@@ -41,7 +41,7 @@ To augment demonstrations, we recreate the simulation environment from the origi
 I tried to implement my own simple motion planner in simulation, then tested several old and nonfunctional planing libraries for the Mujoco simulator before finding one that worked. While we built off this planning library designed broadly for the simulator, key implementation challenges were getting our robot model and obstacles to format correctly, approximating the joint space poses from the planner into tool-space delta actions that the simulator wanted, and interpolating the sparse poses from the planner to have a dense path. 
 
 **Training a model to learn avoidance**
-We want to see if the traditional motion planner, which depends on privileged information from the simulator like the ground truth location of obstacles, can be learned into a robot policy while it is also learning to complete another task. We use the successful, non-colliding demonstrations from the augmentation, while ignoring augmentations that didn't go too well. Architecture-wise, we used basic behavior cloning from the LIBERO benchmark we are testing on and didn't do anything new. 
+We want to see if the traditional motion planner, which depends on privileged information from the simulator like the ground truth location of obstacles, can be learned into a robot policy while it is also learning to complete another task. We use the successful, non-colliding demonstrations from the augmentation, while ignoring augmentations that didn't go too well. Architecture-wise, we used basic behavior cloning from the LIBERO benchmark [7] we are testing on and didn't do anything new. 
 
 
 
@@ -71,9 +71,9 @@ See below for a success on a similar obstacle and complete failure on a differen
 
 ## Discussion
 
-It seems to be extremely hard to learn avoidance alongside manipulation. The behavior cloning that we used has obvious flaws like averaging multimodal actions, but it is widely used for manipulation again because manipulation is hard to explore. Another learning method, maximum entropy RL, has some ability to be robust to obstacles because it tries to complete a task in as random of a way as possible, but avoidance is only by chance and not from actual understanding.
+It seems to be extremely hard to learn avoidance alongside manipulation. The behavior cloning that we used has obvious flaws like averaging multimodal actions, but it is widely used for manipulation again because manipulation is hard to explore. Another learning method, maximum entropy RL [2], has some ability to be robust to obstacles because it tries to complete a task in as random of a way as possible, but avoidance is only by chance and not from actual understanding.
 
-See below for max entropy trained with no obstacle and evaluated without an obstacle (BAIR).
+See below for max entropy trained with no obstacle and evaluated without an obstacle [2].
 
 <img width="600" height="450" alt="maxent" src="https://github.com/user-attachments/assets/60301e82-e076-4584-8113-23c25ae70519" />
 
@@ -81,7 +81,24 @@ See below for max entropy trained with no obstacle and evaluated without an obst
 Learning a negative task of avoidance next to a positive task of manipulation seems very hard. Mobile robots are able to focus on navigation, like a self driving car, a wheeled bot that navigates and takes pictues, or a drone that navigates and drops a delivery. Manipulation robots dynamically change their collision body throughout a task, so the problem seems quite different and challenging. 
 
 Going forward, the spectrum seems to go from a traditional motion planner with an explicit world map that rejects actions if they would cause collision, to the other extreme of physical AI that knows its own limitations and latently avoids hitting anything. It's unclear where the field will move forward as robots come into more contact with humans, and I foresee cheap heuristics like not moving while people are around or if the environment is changing too much.
+
 ## References
+
+[1] Borquez, Javier, et al. "On Safety and Liveness Filtering Using Hamilton-Jacobi Reachability Analysis." arXiv, 2024, https://arxiv.org/abs/2312.15347.
+
+[2] Eysenbach, Benjamin, and Sergey Levine. "Maximum Entropy RL (Provably) Solves Some Robust RL Problems." arXiv, 2022, https://arxiv.org/abs/2103.06257.
+
+[3] Murali, Adithyavairavan, et al. "GraspGen: A Diffusion-based Framework for 6-DOF Grasping with On-Generator Training." arXiv, 2025, https://arxiv.org/abs/2507.13097.
+
+[4] Physical Intelligence, et al. "π0.5: A Vision-Language-Action Model with Open-World Generalization." arXiv, 2025, https://arxiv.org/abs/2504.16054.
+
+[5] Spitznagel, Martin, Jan Vaillant, and Janis Keuper. "PhysicsGen: Can Generative Models Learn from Images to Predict Complex Physical Relations?" arXiv, 2025, https://arxiv.org/abs/2503.05333.
+
+[6] Wang, Wenhao, et al. "FieldGen: From Teleoperated Pre-Manipulation Trajectories to Field-Guided Data Generation." arXiv, 2025, https://arxiv.org/abs/2510.20774.
+
+[7] Liu, Bo, et al. "LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning." arXiv, 2023, https://arxiv.org/abs/2306.03310.
+
+
 
 
 
